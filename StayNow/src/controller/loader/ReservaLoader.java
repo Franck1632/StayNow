@@ -1,4 +1,5 @@
 package controller.loader;
+
 import model.Reserva;
 import model.Cliente;
 import model.Alojamiento;
@@ -7,7 +8,23 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase para cargar y guardar reservas desde/hacia archivos CSV.
+ * 
+ * @author Franckarlos Barbosa
+ * @version 1.0
+ */
 public class ReservaLoader {
+
+    /**
+     * Carga reservas desde un archivo CSV.
+     *
+     * @param archivo       Ruta del archivo CSV.
+     * @param clientes      Lista de clientes para asociar a las reservas.
+     * @param alojamientos  Lista de alojamientos para asociar a las reservas.
+     * @return Lista de reservas.
+     * @throws ArchivoNoEncontradoException Si el archivo no existe.
+     */
     public static ArrayList<Reserva> cargarReservas(String archivo, ArrayList<Cliente> clientes, 
                                                     ArrayList<Alojamiento> alojamientos) throws ArchivoNoEncontradoException {
         ArrayList<Reserva> reservas = new ArrayList<>();
@@ -35,6 +52,14 @@ public class ReservaLoader {
         return reservas;
     }
 
+    /**
+     * Crea una reserva a partir de los valores de una línea CSV.
+     *
+     * @param values        Valores de la línea CSV.
+     * @param clientes      Lista de clientes para asociar.
+     * @param alojamientos  Lista de alojamientos para asociar.
+     * @return Reserva creada o null si hay error o no se encuentra cliente/alojamiento.
+     */
     private static Reserva crearReservaDesdeCSV(String[] values, ArrayList<Cliente> clientes, 
                                                 ArrayList<Alojamiento> alojamientos) {
         try {
@@ -72,6 +97,12 @@ public class ReservaLoader {
         }
     }
 
+    /**
+     * Guarda una lista de reservas en un archivo CSV.
+     *
+     * @param archivo  Ruta del archivo CSV.
+     * @param reservas Lista de reservas a guardar.
+     */
     public static void guardarReservas(String archivo, ArrayList<Reserva> reservas) {
         try (FileWriter writer = new FileWriter(archivo)) {
             writer.write("IDReserva,IDCliente,CodigoAlojamiento,FechaEntrada,FechaSalida,Total\n");

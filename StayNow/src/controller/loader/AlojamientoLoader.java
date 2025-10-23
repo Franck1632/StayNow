@@ -1,10 +1,25 @@
 package controller.loader;
+
 import model.*;
 import model.exceptions.ArchivoNoEncontradoException;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Clase para cargar y guardar alojamientos desde/hacia archivos CSV.
+ * 
+ * @author Franckarlos Barbosa
+ * @version 1.0
+ */
 public class AlojamientoLoader {
+
+    /**
+     * Carga alojamientos desde un archivo CSV.
+     *
+     * @param archivo Ruta del archivo CSV.
+     * @return Lista de alojamientos.
+     * @throws ArchivoNoEncontradoException Si el archivo no existe.
+     */
     public static ArrayList<Alojamiento> cargarAlojamientos(String archivo) throws ArchivoNoEncontradoException {
         ArrayList<Alojamiento> alojamientos = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
@@ -31,6 +46,12 @@ public class AlojamientoLoader {
         return alojamientos;
     }
 
+    /**
+     * Crea un alojamiento a partir de los valores de una línea CSV.
+     *
+     * @param values Valores de la línea CSV.
+     * @return Alojamiento creado o null si hay error.
+     */
     private static Alojamiento crearAlojamientoDesdeCSV(String[] values) {
         String tipo = values[0].trim();
         String codigo = values[1].trim();
@@ -61,6 +82,12 @@ public class AlojamientoLoader {
         }
     }
 
+    /**
+     * Guarda una lista de alojamientos en un archivo CSV.
+     *
+     * @param archivo       Ruta del archivo CSV.
+     * @param alojamientos  Lista de alojamientos a guardar.
+     */
     public static void guardarAlojamientos(String archivo, ArrayList<Alojamiento> alojamientos) {
         try (FileWriter writer = new FileWriter(archivo)) {
             writer.write("Tipo,Codigo,Nombre,Ubicacion,Precio,Extra1,Extra2,Extra3\n");

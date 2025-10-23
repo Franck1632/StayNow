@@ -1,10 +1,25 @@
 package controller.loader;
+
 import model.Cliente;
 import model.exceptions.ArchivoNoEncontradoException;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Clase para cargar y guardar clientes desde/hacia archivos CSV.
+ * 
+ * @author Franckarlos Barbosa
+ * @version 1.0
+ */
 public class ClienteLoader {
+
+    /**
+     * Carga clientes desde un archivo CSV.
+     *
+     * @param archivo Ruta del archivo CSV.
+     * @return Lista de clientes.
+     * @throws ArchivoNoEncontradoException Si el archivo no existe.
+     */
     public static ArrayList<Cliente> cargarClientes(String archivo) throws ArchivoNoEncontradoException {
         ArrayList<Cliente> clientes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
@@ -31,6 +46,12 @@ public class ClienteLoader {
         return clientes;
     }
 
+    /**
+     * Guarda una lista de clientes en un archivo CSV.
+     *
+     * @param archivo  Ruta del archivo CSV.
+     * @param clientes Lista de clientes a guardar.
+     */
     public static void guardarClientes(String archivo, ArrayList<Cliente> clientes) {
         try (FileWriter writer = new FileWriter(archivo)) {
             writer.write("ID,Nombre,Email\n");

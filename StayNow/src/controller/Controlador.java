@@ -1,16 +1,31 @@
 package controller;
+
 import model.*;
 import model.exceptions.*;
 import controller.loader.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Controlador general del sistema.
+ * Maneja clientes, alojamientos, reservas y pagos.
+ * Permite registrar, buscar, mostrar información y guardar/cargar datos desde
+ * CSV.
+ * 
+ * @author Franckarlos Barbosa
+ * @version 1.0
+ */
 public class Controlador {
+    /** Lista de clientes registrados */
     private ArrayList<Cliente> clientes;
+    /** Lista de alojamientos registrados */
     private ArrayList<Alojamiento> alojamientos;
+    /** Lista de reservas registradas */
     private ArrayList<Reserva> reservas;
+    /** Lista de pagos realizados */
     private ArrayList<Pago> pagos;
 
+    /** Inicializa las listas y carga los datos desde CSV */
     public Controlador() {
         this.clientes = new ArrayList<>();
         this.alojamientos = new ArrayList<>();
@@ -18,7 +33,9 @@ public class Controlador {
         this.pagos = new ArrayList<>();
         cargarDatosCSV();
     }
+
     // Métodos para Clientes
+    /** Registra un cliente */
     public boolean registrarCliente(String id, String nombre, String email) {
         for (Cliente c : clientes) {
             if (c.getId().equals(id)) {
@@ -29,6 +46,7 @@ public class Controlador {
         return true;
     }
 
+    /** Busca un cliente por ID */
     public Cliente buscarCliente(String id) throws ClienteNoEncontradoException {
         for (Cliente c : clientes) {
             if (c.getId().equals(id)) {
@@ -39,26 +57,31 @@ public class Controlador {
     }
 
     // Métodos para Alojamientos
+    /** Registra un hotel */
     public void registrarHotel(String codigo, String nombre, String ubicacion,
-                                double precio, int estrellas, boolean desayuno) {
+            double precio, int estrellas, boolean desayuno) {
         alojamientos.add(new Hotel(codigo, nombre, ubicacion, precio, estrellas, desayuno));
     }
 
+    /** Registra un apartamento */
     public void registrarApartamento(String codigo, String nombre, String ubicacion,
-                                    double precio, int habitaciones, boolean parqueadero) {
+            double precio, int habitaciones, boolean parqueadero) {
         alojamientos.add(new Apartamento(codigo, nombre, ubicacion, precio, habitaciones, parqueadero));
     }
 
+    /** Registra una cabaña */
     public void registrarCabana(String codigo, String nombre, String ubicacion,
-                                double precio, String zona, int capacidad) {
+            double precio, String zona, int capacidad) {
         alojamientos.add(new Cabana(codigo, nombre, ubicacion, precio, zona, capacidad));
     }
 
+    /** Registra un pago */
     public boolean registrarPago(String idPago, double monto, String metodo) {
         pagos.add(new Pago(idPago, monto, metodo));
         return true;
     }
 
+    /** Busca un alojamiento por código */
     public Alojamiento buscarAlojamiento(String codigo) throws AlojamientoNoEncontradoException {
         for (Alojamiento a : alojamientos) {
             if (a.getCodigo().equals(codigo)) {
@@ -67,11 +90,13 @@ public class Controlador {
         }
         throw new AlojamientoNoEncontradoException(codigo);
     }
+
     // Métodos para Reservas
+    /** Crea una reserva */
     public boolean crearReserva(String idReserva, String idCliente, String codigoAlojamiento,
-                                LocalDate fechaEntrada, LocalDate fechaSalida)
-                                throws FechaInvalidaException, ClienteNoEncontradoException,
-                                    AlojamientoNoEncontradoException {
+            LocalDate fechaEntrada, LocalDate fechaSalida)
+            throws FechaInvalidaException, ClienteNoEncontradoException,
+            AlojamientoNoEncontradoException {
         // Validar fechas
         if (fechaSalida.isBefore(fechaEntrada)) {
             throw new FechaInvalidaException("La fecha de salida no puede ser anterior a la fecha de entrada");
@@ -85,7 +110,9 @@ public class Controlador {
         reservas.add(reserva);
         return true;
     }
+
     // Métodos para mostrar información (sin cambios)
+    /** Muestra la lista de clientes */
     public void mostrarClientes() {
         System.out.println("\n=== LISTA DE CLIENTES ===");
         for (Cliente c : clientes) {
@@ -94,6 +121,7 @@ public class Controlador {
         }
     }
 
+    /** Muestra la lista de alojamientos */
     public void mostrarAlojamientos() {
         System.out.println("\n=== LISTA DE ALOJAMIENTOS ===");
         for (Alojamiento a : alojamientos) {
@@ -102,6 +130,7 @@ public class Controlador {
         }
     }
 
+    /** Muestra la lista de reservas */
     public void mostrarReservas() {
         System.out.println("\n=== LISTA DE RESERVAS ===");
         for (Reserva r : reservas) {
@@ -111,6 +140,7 @@ public class Controlador {
     }
 
     // Métodos para CSV usando Loaders
+    /** Guarda todos los datos en archivos CSV */
     public void guardarDatosCSV() {
         ClienteLoader.guardarClientes("resources/clientes.csv", clientes);
         AlojamientoLoader.guardarAlojamientos("resources/alojamientos.csv", alojamientos);
@@ -118,6 +148,7 @@ public class Controlador {
         System.out.println("Datos guardados en archivos CSV");
     }
 
+    /** Carga los datos desde archivos CSV */
     private void cargarDatosCSV() {
         try {
             this.clientes = ClienteLoader.cargarClientes("resources/clientes.csv");
@@ -139,8 +170,24 @@ public class Controlador {
         }
     }
     // Getters para las listas
-    public ArrayList<Cliente> getClientes() { return clientes; }
-    public ArrayList<Alojamiento> getAlojamientos() { return alojamientos; }
-    public ArrayList<Reserva> getReservas() { return reservas; }
-    public ArrayList<Pago> getPagos() { return pagos; }
+
+    /** Retorna la lista de clientes */
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    /** Retorna la lista de alojamientos */
+    public ArrayList<Alojamiento> getAlojamientos() {
+        return alojamientos;
+    }
+
+    /** Retorna la lista de reservas */
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    /** Retorna la lista de pagos */
+    public ArrayList<Pago> getPagos() {
+        return pagos;
+    }
 }

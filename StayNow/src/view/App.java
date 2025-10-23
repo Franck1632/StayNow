@@ -1,13 +1,32 @@
 package view;
+
 import controller.Controlador;
 import model.exceptions.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * Clase principal de la aplicación.
+ * Permite interactuar con el usuario mediante consola
+ * para registrar clientes, alojamientos, reservas y pagos.
+ * 
+ * @author Franckarlos Barbosa
+ * @version 1.0
+ */
 public class App {
+
+    /** Controlador del sistema */
     private static Controlador controlador;
+
+    /** Scanner para lectura de datos desde consola */
     private static Scanner scanner;
+
+    /**
+     * Método principal que inicia la aplicación.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         controlador = new Controlador();
         scanner = new Scanner(System.in);
@@ -15,6 +34,9 @@ public class App {
         mostrarMenuPrincipal();
     }
 
+    /**
+     * Muestra el menú principal y gestiona las opciones del usuario.
+     */
     private static void mostrarMenuPrincipal() {
         int opcion;
         do {
@@ -47,6 +69,9 @@ public class App {
         } while(opcion != 8);
     }
 
+    /**
+     * Permite registrar un nuevo cliente solicitando datos por consola.
+     */
     private static void registrarCliente() {
         System.out.println("\n=== REGISTRAR CLIENTE ===");
         System.out.print("ID del cliente: ");
@@ -62,6 +87,9 @@ public class App {
         }
     }
 
+    /**
+     * Permite registrar un nuevo alojamiento solicitando datos por consola.
+     */
     private static void registrarAlojamiento() {
         System.out.println("\n=== REGISTRAR ALOJAMIENTO ===");
         System.out.println("1. Hotel");
@@ -105,6 +133,9 @@ public class App {
         System.out.println("Alojamiento registrado exitosamente!");
     }
 
+    /**
+     * Permite crear una nueva reserva solicitando datos por consola.
+     */
     private static void crearReserva() {
         System.out.println("\n=== CREAR RESERVA ===");
         try {
@@ -132,6 +163,10 @@ public class App {
             System.out.println("Error inesperado: " + e.getMessage());
         }
     }
+
+    /**
+     * Permite registrar un pago solicitando datos por consola.
+     */
     private static void registrarPago() {
         System.out.println("\n=== REGISTRAR PAGO ===");
         System.out.print("ID del pago: ");
@@ -146,6 +181,9 @@ public class App {
         }
     }
 
+    /**
+     * Muestra toda la información de clientes, alojamientos y reservas.
+     */
     private static void mostrarTodosDatos() {
         controlador.mostrarClientes();
         controlador.mostrarAlojamientos();
